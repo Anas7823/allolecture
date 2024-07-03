@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:allolecture/myhomepage.dart';
+// import 'package:allolecture/notes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: MyHomePage(),
+      // home: Notes(),
     );
   }
 }

@@ -100,19 +100,35 @@ app.get('/articles/:id_art', async (req, res) => {
 app.post('/articles', async (req, res) => {
     console.log("Request for articles")
     let conn;
-    let date_upload = new Date()
-    try{
-        conn = await mariadb.pool.getConnection()
-        console.log("Connection established for post articles")
-        const sql = await conn.query("INSERT INTO articles(nom_art, createur_art, duree, date_crea, date_upload, id_cat) VALUES (?, ?, ?, ?, ?, ?)", [req.body.nom_art, req.body.createur_art, req.body.duree, req.body.date_crea, date_upload, req.body.id_cat])
-        res.status(200).json(stringifyBigInt(sql));
-        console.log("Articles posted")
+    let date_upload = new Date();
+    try {
+      conn = await mariadb.pool.getConnection();
+      console.log("Connection established for post articles");
+  
+      const sql = await conn.query(
+        "INSERT INTO articles(nom_art, createur_art, duree, date_crea, date_upload, id_cat) VALUES (?, ?, ?, ?, ?, ?)",
+        [req.body.nom_art, req.body.createur_art, req.body.duree, req.body.date_crea, date_upload, req.body.id_cat]
+      );
+  
+      // Check for warnings after the query execution
+      const warnings = await conn.query('SHOW WARNINGS');
+      if (warnings.length > 0) {
+        console.warn('Warnings generated during article insertion:');
+        warnings.forEach(warning => {
+          console.warn(`Code: ${warning.Code}, Message: ${warning.Message}`);
+        });
+      }
+  
+      res.status(200).json(stringifyBigInt(sql));
+      console.log("Articles posted");
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    } finally {
+      // Make sure to release the connection back to the pool
+      if (conn) conn.release();
     }
-    catch(err){
-        console.log(err)
-        res.status(500).json(err)
-    }
-})
+  });
 
 // Notation
 
