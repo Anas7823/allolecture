@@ -100,33 +100,15 @@ app.get('/articles/:id_art', async (req, res) => {
 app.post('/articles', async (req, res) => {
     console.log("Request for articles")
     let conn;
-    let date_upload = new Date();
-    try {
-      conn = await mariadb.pool.getConnection();
-      console.log("Connection established for post articles");
-  
-      const sql = await conn.query(
-        "INSERT INTO articles(nom_art, createur_art, duree, date_crea, date_upload, id_cat) VALUES (?, ?, ?, ?, ?, ?)",
-        [req.body.nom_art, req.body.createur_art, req.body.duree, req.body.date_crea, date_upload, req.body.id_cat]
-      );
-  
-      // Check for warnings after the query execution
-      const warnings = await conn.query('SHOW WARNINGS');
-      if (warnings.length > 0) {
-        console.warn('Warnings generated during article insertion:');
-        warnings.forEach(warning => {
-          console.warn(`Code: ${warning.Code}, Message: ${warning.Message}`);
-        });
-      }
-  
-      res.status(200).json(stringifyBigInt(sql));
-      console.log("Articles posted");
-    } catch (err) {
-      console.error(err);
-      res.status(500).json(err);
-    } finally {
-      // Make sure to release the connection back to the pool
-      if (conn) conn.release();
+    try{
+        conn = await mariadb.pool.getConnection()
+        console.log("Connection established for post articles")
+        const sql = await conn.query("INSERT INTO articles(nom_art, createur_art, duree, date_crea, id_cat) VALUES (?, ?, ?, ?, ?)", [req.body.nom_art, req.body.createur_art, req.body.duree, req.body.date_crea, req.body.id_cat])
+        res.status(200).json(stringifyBigInt(sql));
+        console.log("Articles posted")
+    } catch(err){
+        console.log(err)
+        res.status(500).json(err)
     }
   });
 
@@ -176,6 +158,25 @@ app.get('/notes/top', async (req, res) => {
         const sql = await conn.query("SELECT * FROM notes ORDER BY note DESC LIMIT 5")
         res.status(200).json(sql)
         console.log("Top notes sent")
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json(err)
+    }
+})
+
+// Voir le top 5 des notes par catégorie
+app.get('/notes/top/:id_cat', async (req, res) => {
+    console.log("Request for top notes by category")
+    let conn;
+    try{
+        let id_cat = parseInt(req.params.id_cat);
+        conn = await mariadb.pool.getConnection()
+        console.log("Connection established for top notes by category")
+        const sql = await conn.query("SELECT a.id_art, a.nom_art, a.createur_art, a.duree, a.date_crea, a.id_cat, AVG(n.note) AS moyenne_notes FROM articles AS a JOIN notes AS n ON a.id_art = n.id_art WHERE a.id_cat = ? GROUP BY a.id_art ORDER BY moyenne_notes DESC LIMIT 5;", [id_cat])
+        res.status(200).json(sql)
+        console.log("Top notes by category sent")
+        conn.release()
     }
     catch(err){
         console.log(err)
