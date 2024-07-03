@@ -14,18 +14,29 @@ class MyHomePage extends StatelessWidget {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Navbar(),
       ),
-      body: Column(
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            child: Text('Top 5 loisirs!'),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: ExpansionTileExample(),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 40, top: 40),
+                child: Text('Top 5 loisirs!'),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: ExpansionTileExample(),
+            ),
+          ],
+        ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
