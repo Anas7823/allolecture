@@ -57,7 +57,7 @@ INSERT INTO `catégories` (`id_cat`, `nom_cat`) VALUES
 (2, 'Livres'),
 (3, 'Mangas'),
 (4, 'Séries'),
-(5, ' Bandes dessinées');
+(5, 'Bandes dessinées');
 
 -- --------------------------------------------------------
 
