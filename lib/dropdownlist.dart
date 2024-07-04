@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'articledetailpage.dart'; // Import the new page 
 
 class ExpansionTileExample extends StatefulWidget {
   const ExpansionTileExample({super.key});
@@ -17,7 +18,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
 
   Future<double> fetchAverageNote(int idArt) async {
     final response = await http
-        .get(Uri.parse('http://10.74.3.201:8000/notes/moyenne/$idArt'));
+        .get(Uri.parse('http://10.0.2.2:8000/notes/moyenne/$idArt'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       return double.parse(jsonResponse[0]['AVG(note)']);
@@ -36,7 +37,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
     print('enculer');
 
     final response =
-        await http.get(Uri.parse('http://10.74.3.201:8000/categories'));
+        await http.get(Uri.parse('http://10.0.2.2:8000/categories'));
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -46,7 +47,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
 
   Future<List<dynamic>> fetchTopCategories(int id_cat) async {
     final response =
-        await http.get(Uri.parse('http://10.74.3.201:8000/notes/top/$id_cat'));
+        await http.get(Uri.parse('http://10.0.2.2:8000/notes/top/$id_cat'));
     print(response);
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -76,7 +77,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color(0xFFB9848C),
-                      border: Border.all(color: Colors.blue, width: 2),
+                      border: Border.all(color: Color.fromARGB(255, 47, 111, 175), width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ExpansionTile(
@@ -132,6 +133,17 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                                         ),
                                       ],
                                     ),
+                                    onTap: () {
+                                      // Navigate to the detail page when tapped
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ArticleDetailPage(
+                                            articleId: film['id_art'],
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
                                 }).toList(),
                               );
