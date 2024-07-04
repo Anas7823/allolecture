@@ -8,11 +8,9 @@ class Navbar extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceEvenly, // Applique un espacement régulier
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.asset('images/React-JS.png',
-                fit: BoxFit.cover, height: 32.0), // Ajuste la taille de l'image
+            Image.asset('images/React-JS.png', fit: BoxFit.cover, height: 32.0),
             const Text(
               'AlloLecture',
               style: TextStyle(
@@ -29,8 +27,7 @@ class Navbar extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 47, 111, 175),
       ),
-      body: Center(
-          child: Text('Contenu principal')), // Ajout d'un body pour le Scaffold
+      body: Center(child: Text('Contenu principal')),
     );
   }
 }

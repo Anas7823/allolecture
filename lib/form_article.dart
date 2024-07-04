@@ -42,7 +42,13 @@ class MyCustomFormState extends State<MyCustomForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajouter un élément'),
+        leading: IconButton(
+          icon:
+              Icon(Icons.arrow_back, color: Color.fromARGB(255, 47, 111, 175)),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text('Ajouter un élément',
+            style: TextStyle(color: Color.fromARGB(255, 47, 111, 175))),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -149,14 +155,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           child: Center(
                             child: ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Processing Data')),
-                                  );
-                                }
-                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFB9848C),
+                              ),
+                              onPressed: () {},
                               child: const Text('Ajouter'),
                             ),
                           ),
