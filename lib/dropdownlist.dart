@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, avoid_print
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -116,17 +118,15 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                                           builder: (context, noteSnapshot) {
                                             if (noteSnapshot.connectionState ==
                                                 ConnectionState.waiting) {
-                                              return Text(
-                                                  'Loading...'); // Affiche un texte de chargement pendant le calcul de la note
+                                              return Text('Loading...');
                                             } else if (noteSnapshot.hasError) {
                                               return Text(
                                                   'Error: ${noteSnapshot.error}');
                                             } else if (noteSnapshot.hasData) {
                                               return Text(
-                                                  'Note: ${noteSnapshot.data!.toStringAsFixed(2)}/5'); // Affiche la note à droite
+                                                  'Note: ${noteSnapshot.data!.toStringAsFixed(2)}/5');
                                             } else {
-                                              return Text(
-                                                  'No data'); // Gestion du cas où il n'y a pas de données
+                                              return Text('No data');
                                             }
                                           },
                                         ),

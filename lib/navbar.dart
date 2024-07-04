@@ -7,19 +7,19 @@ class Navbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Image.asset('images/React-JS.png'),
-        title: const Text('AlloLecture'),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Placeholder()),
-              );
-            },
-            child: Icon(Icons.menu),
-          ),
-        ],
+        title: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.spaceEvenly, // Applique un espacement régulier
+          children: [
+            Image.asset('images/React-JS.png',
+                fit: BoxFit.cover, height: 32.0), // Ajuste la taille de l'image
+            const Text('AlloLecture'),
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
     );
   }
