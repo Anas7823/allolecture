@@ -21,8 +21,8 @@ class ArticleDetailPage extends StatelessWidget {
   }
 
   Future<double> fetchAverageNote(int idArt) async {
-    final response =
-        await http.get(Uri.parse('http://10.0.2.2:8000/notes/moyenne/$idArt'));
+    final response = await http
+        .get(Uri.parse('http://10.74.3.201:8000/notes/moyenne/$idArt'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       return double.parse(jsonResponse[0]['AVG(note)']);
@@ -127,7 +127,7 @@ class __RatingDialogState extends State<_RatingDialog> {
 
   Future<void> submitRating(int note, int idArt) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/notes'),
+      Uri.parse('http://10.74.3.201:8000/notes'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -136,6 +136,8 @@ class __RatingDialogState extends State<_RatingDialog> {
         'id_art': idArt,
       }),
     );
+
+    if (!mounted) return;
 
     if (response.statusCode == 200) {
       print('Note submitted successfully');
@@ -147,7 +149,7 @@ class __RatingDialogState extends State<_RatingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Rate this article'),
+      title: Text('Note l\'article'),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(5, (index) {
@@ -166,7 +168,7 @@ class __RatingDialogState extends State<_RatingDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('Submit'),
+          child: Text('Envoyer'),
           onPressed: () {
             submitRating(selectedRating, widget.articleId).then((_) {
               Navigator.of(context).pop();
@@ -179,7 +181,7 @@ class __RatingDialogState extends State<_RatingDialog> {
           },
         ),
         TextButton(
-          child: Text('Cancel'),
+          child: Text('Retour'),
           onPressed: () {
             Navigator.of(context).pop();
           },

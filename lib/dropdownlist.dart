@@ -112,8 +112,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(film[
-                                            'nom_art']), // Nom du film à gauche
+                                        Text(film['nom_art']),
                                         FutureBuilder<double>(
                                           future:
                                               fetchAverageNote(film['id_art']),
