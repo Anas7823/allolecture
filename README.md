@@ -14,4 +14,5 @@ npm i
 nodemon server.js
 
 # Front-End
+/!\ Modifier les endpoint API côté front /!\
 flutter run
