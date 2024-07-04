@@ -10,7 +10,7 @@ class ArticleDetailPage extends StatelessWidget {
 
   Future<Map<String, dynamic>> fetchArticleDetails(int idArt) async {
     final response =
-        await http.get(Uri.parse('http://10.74.3.201:8000/articles/$idArt'));
+        await http.get(Uri.parse('http://10.0.2.2:8000/articles/$idArt'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       return jsonResponse[
@@ -21,7 +21,8 @@ class ArticleDetailPage extends StatelessWidget {
   }
 
   Future<double> fetchAverageNote(int idArt) async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:8000/notes/moyenne/$idArt'));
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2:8000/notes/moyenne/$idArt'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       return double.parse(jsonResponse[0]['AVG(note)']);
@@ -55,7 +56,7 @@ class ArticleDetailPage extends StatelessWidget {
           } else if (!snapshot.hasData) {
             return Center(child: Text('No details found'));
           } else {
-            final article = snapshot.data!;
+            final article = snapshot.data!; // snapshot.data est un Map<String, dynamic>
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -74,17 +75,22 @@ class ArticleDetailPage extends StatelessWidget {
                   Text('Date de création: ${article['date_crea']}',
                       style: TextStyle(fontSize: 16)),
                   SizedBox(height: 18),
-                  Text("Lorem blablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablabla"),
+                  Text(
+                      "Lorem blablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablabla"),
                   SizedBox(height: 16),
                   FutureBuilder<double>(
                     future: fetchAverageNote(articleId),
                     builder: (context, noteSnapshot) {
-                      if (noteSnapshot.connectionState == ConnectionState.waiting) {
+                      if (noteSnapshot.connectionState ==
+                          ConnectionState.waiting) {
                         return Text('Loading average note...');
                       } else if (noteSnapshot.hasError) {
                         return Text('Error: ${noteSnapshot.error}');
                       } else if (noteSnapshot.hasData) {
-                        return Text('Note moyenne: ${noteSnapshot.data!.toStringAsFixed(2)}/5', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
+                        return Text(
+                            'Note moyenne: ${noteSnapshot.data!.toStringAsFixed(2)}/5',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold));
                       } else {
                         return Text('No average note available');
                       }

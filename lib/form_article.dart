@@ -25,7 +25,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   Future<List<String>> fetchCategories() async {
     // print('je passe');
     final response =
-        await http.get(Uri.parse('http://10.74.3.201:8000/categories'));
+        await http.get(Uri.parse('http://10.0.2.2:8000/categories'));
     if (response.statusCode == 200) {
       print(response.body);
       List<dynamic> categoriesJson = json.decode(response.body);
