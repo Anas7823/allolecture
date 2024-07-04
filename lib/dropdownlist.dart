@@ -13,6 +13,17 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
   bool _customTileExpanded = false;
   late Future<List<dynamic>> categories;
 
+  Future<double> fetchAverageNote(int idArt) async {
+    final response = await http
+        .get(Uri.parse('http://10.74.3.201:8000/notes/moyenne/$idArt'));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      return double.parse(jsonResponse[0]['AVG(note)']);
+    } else {
+      throw Exception('Failed to load average note for article $idArt');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -20,7 +31,10 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
   }
 
   Future<List<dynamic>> fetchCategories() async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:8000/categories'));
+    print('enculer');
+
+    final response =
+        await http.get(Uri.parse('http://10.74.3.201:8000/categories'));
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -29,7 +43,8 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
   }
 
   Future<List<dynamic>> fetchTopCategories(int id_cat) async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:8000/notes/top/$id_cat'));
+    final response =
+        await http.get(Uri.parse('http://10.74.3.201:8000/notes/top/$id_cat'));
     print(response);
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -65,23 +80,58 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                     child: ExpansionTile(
                       title: Text(category['nom_cat']),
                       trailing: Icon(
-                        _customTileExpanded ? Icons.arrow_drop_down_circle : Icons.arrow_drop_down,
+                        _customTileExpanded
+                            ? Icons.arrow_drop_down_circle
+                            : Icons.arrow_drop_down,
                       ),
                       children: [
                         FutureBuilder<List<dynamic>>(
                           future: fetchTopCategories(category['id_cat']),
                           builder: (context, filmSnapshot) {
-                            if (filmSnapshot.connectionState == ConnectionState.waiting) {
+                            if (filmSnapshot.connectionState ==
+                                ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());
                             } else if (filmSnapshot.hasError) {
-                              return Center(child: Text('Error: ${filmSnapshot.error}'));
-                            } else if (!filmSnapshot.hasData || filmSnapshot.data!.isEmpty) {
-                              return Center(child: Text('No top films found for this category'));
+                              return Center(
+                                  child: Text('Error: ${filmSnapshot.error}'));
+                            } else if (!filmSnapshot.hasData ||
+                                filmSnapshot.data!.isEmpty) {
+                              return Center(
+                                  child: Text(
+                                      'No top films found for this category'));
                             } else {
                               return Column(
-                                children: filmSnapshot.data!.map<Widget>((film) {
+                                children:
+                                    filmSnapshot.data!.map<Widget>((film) {
                                   return ListTile(
-                                    title: Text(film['nom_art']),
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(film[
+                                            'nom_art']), // Nom du film à gauche
+                                        FutureBuilder<double>(
+                                          future:
+                                              fetchAverageNote(film['id_art']),
+                                          builder: (context, noteSnapshot) {
+                                            if (noteSnapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return Text(
+                                                  'Loading...'); // Affiche un texte de chargement pendant le calcul de la note
+                                            } else if (noteSnapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${noteSnapshot.error}');
+                                            } else if (noteSnapshot.hasData) {
+                                              return Text(
+                                                  'Note: ${noteSnapshot.data!.toStringAsFixed(2)}/5'); // Affiche la note à droite
+                                            } else {
+                                              return Text(
+                                                  'No data'); // Gestion du cas où il n'y a pas de données
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 }).toList(),
                               );

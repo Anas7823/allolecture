@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
-
 import 'package:allolecture/form_article.dart';
 import 'package:allolecture/dropdownlist.dart';
 import 'package:allolecture/navbar.dart';
@@ -15,22 +13,25 @@ class MyHomePage extends StatelessWidget {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Navbar(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 40, top: 40),
-                child: Text('Top 5 loisirs!'),
+      body: SingleChildScrollView(
+        child: Padding(
+          // Correction ici: Ajout de `child:`
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40, top: 40),
+                  child: Text('Top 5 loisirs!'),
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: ExpansionTileExample(),
-            ),
-          ],
+              Container(
+                alignment: Alignment.center,
+                child: ExpansionTileExample(),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
