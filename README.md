@@ -1,16 +1,17 @@
-# allolecture
-
+### allolecture
 A new Flutter project.
 
-## Getting Started
+# Back-End
+## BDD
+Importer le fichier allolecture.sql présent dans le dossier back-end
 
-This project is a starting point for a Flutter application.
+## Installer les dépendances
+cd back-end
 
-A few resources to get you started if this is your first Flutter project:
+npm i
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Démarrer le serveur
+nodemon server.js
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Front-End
+flutter run
