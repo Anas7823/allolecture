@@ -15,7 +15,6 @@ class MyHomePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          // Correction ici: Ajout de `child:`
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [

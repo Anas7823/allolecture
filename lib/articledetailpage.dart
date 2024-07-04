@@ -5,13 +5,16 @@ import 'package:http/http.dart' as http;
 class ArticleDetailPage extends StatelessWidget {
   final int articleId;
 
-  const ArticleDetailPage({Key? key, required this.articleId}) : super(key: key);
+  const ArticleDetailPage({Key? key, required this.articleId})
+      : super(key: key);
 
   Future<Map<String, dynamic>> fetchArticleDetails(int idArt) async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:8000/articles/$idArt'));
+    final response =
+        await http.get(Uri.parse('http://10.74.3.201:8000/articles/$idArt'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      return jsonResponse[0]; // Assuming the API returns a list with one element
+      return jsonResponse[
+          0]; // Assuming the API returns a list with one element
     } else {
       throw Exception('Failed to load article details');
     }
@@ -39,15 +42,21 @@ class ArticleDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Nom: ${article['nom_art']}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('Nom: ${article['nom_art']}',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 8),
-                  Text('Créateur: ${article['createur_art']}', style: TextStyle(fontSize: 16)),
+                  Text('Créateur: ${article['createur_art']}',
+                      style: TextStyle(fontSize: 16)),
                   SizedBox(height: 8),
-                  Text('Durée / longueur: ${article['duree']}', style: TextStyle(fontSize: 16)),
+                  Text('Durée / longueur: ${article['duree']}',
+                      style: TextStyle(fontSize: 16)),
                   SizedBox(height: 8),
-                  Text('Date de création: ${article['date_crea']}', style: TextStyle(fontSize: 16)), 
+                  Text('Date de création: ${article['date_crea']}',
+                      style: TextStyle(fontSize: 16)),
                   SizedBox(height: 18),
-                  Text("Lorem blablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablabla")
+                  Text(
+                      "Lorem blablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablablablablablbalbalbalablablablbalablaablablabalbalablablabalbalablalaballbalbalabblablabla")
                 ],
               ),
             );
